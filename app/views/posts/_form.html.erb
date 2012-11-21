@@ -1,0 +1,6 @@
+<%= simple_form_for(@post, html: { multipart: true }) do |f| %>
+  <%= f.input :title, input_html: { style: 'width: 100%' } %>
+  <%= f.input :image, as: :file %>
+  <%= f.input :content, input_html: { style: 'width: 100%;height:200px' } %>
+  <%= f.button :submit, class: 'btn btn-primary btn-large' %>
+<% end %>

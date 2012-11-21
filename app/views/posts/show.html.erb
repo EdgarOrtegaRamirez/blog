@@ -1,0 +1,48 @@
+<script> 
+FB.init({appId: "521700431175814", status: true, cookie: true});
+
+function postToFeed() {
+  var obj = {
+    method: 'feed',
+    redirect_uri: 'http://localhost:3000<%= post_path %>',
+    link: 'http://localhost:3000<%= post_path %>',
+    name: '<%= @post.title %>',
+    caption: '<%= @post.title %>',
+    description: '<%= @post.content[0..100] %>'
+  };
+
+  function callback(response) {
+    document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+  }
+
+  FB.ui(obj, callback);
+}
+</script>
+<h1><%= @post.title %></h1>
+<%= image_tag @post.image.url %>
+<% #image_tag @post.image.url(:medium) %>
+<% #image_tag @post.image.url(:thumb) %>
+<% markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
+        :autolink => true, :space_after_headers => true) %>
+<p><%= markdown.render(@post.content).html_safe %></p>
+<hr>
+<h4>Share Post!</h4>
+<p><a href="#" onclick='postToFeed(); return false;'>Share on Facebook</a></p>
+<p id='msg'></p>
+<a data-text="<%= @post.title + ' - http://localhost:3000' + post_path %>" href="https://twitter.com/share" class="twitter-share-button" data-related="" data-lang="es" data-count="none">Tweet it!</a>
+<hr>
+<ul>
+  <% @comments.each do |comment| %>
+    <li>
+      <p><%= comment.nickname %>: <small><%= time_ago_in_words(comment.created_at) %> ago</small></p>
+      <p><%= comment.message %></p>
+    </li>
+  <% end %>
+</ul>
+
+<h4>Deja tu comentario</h4>
+<%= simple_form_for [@post, @post.comments.build] do |f| %>
+  <%= f.input :nickname %>
+  <%= f.input :message, :input_html => {:rows => 5}  %>
+  <%= f.button :submit %>
+<% end %>

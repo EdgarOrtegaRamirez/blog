@@ -1,0 +1,10 @@
+<h1>All the posts!</h1>
+<ul>
+  <% @posts.each do |post| %>
+    <li>
+      <%= link_to(post.title, post) %> -
+      <%= post.user.full_name %> -
+      <%= time_ago_in_words(post.created_at) %> ago
+    </li>
+  <% end %>
+</ul>
