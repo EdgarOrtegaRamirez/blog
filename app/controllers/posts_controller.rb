@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :authenticate_user!, :only => [:new, :create]
+  before_filter :authenticate_user!, :only => [:new, :create, :update, :edit]
 
   def index
     @posts = Post.order("created_at DESC")
@@ -22,8 +22,8 @@ class PostsController < ApplicationController
 	@post = Post.find(params[:id])
 	
 	if @post.update_attributes(params[:post])
-		flash[:notice] = 'Post succesfully edited'
-		redirect_to :action => 'show', id: @post
+		flash[:notice] = 'Your post was edited succesfully'
+		redirect_to action: 'show', id: @post
 	else
 		flash[:error] = "There were some errors editing your post"
 		render action: 'edit'
