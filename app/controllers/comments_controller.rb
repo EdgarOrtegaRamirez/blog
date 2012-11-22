@@ -5,7 +5,8 @@ class CommentsController < ApplicationController
     @comment = @post.comments.build(params[:comment])
 
     if @comment.save
-      redirect_to post_path(@post), :notice => "Your comment was submitted.  Thank you"
+      UserMailer.comment(@comment).deliver
+      redirect_to post_path(@post), :notice => "Your comment was submitted. Thank you"
     else
       redirect_to post_path(@post), :error => "Your comment couldn't be submitted"
     end
