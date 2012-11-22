@@ -30,7 +30,7 @@
 
 <h4>Deja tu comentario</h4>
 <%= simple_form_for [@post, @post.comments.build] do |f| %>
-  <%= f.input :nickname %>
+  <%= f.input :nickname if !user_signed_in? %>
   <%= f.input :message, :input_html => {:rows => 5}  %>
   <%= f.button :submit, class: 'btn btn-info' %>
 <% end %>

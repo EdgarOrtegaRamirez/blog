@@ -2,7 +2,13 @@ class CommentsController < ApplicationController
   
   def create
     @post = Post.find(params[:post_id])
-    @comment = @post.comments.build(params[:comment])
+    if user_signed_in?
+      @comment = UserComment.new(params[:comment])
+      @comment.user = current_user
+    else
+      @comment = Comment.new(params[:comment])
+    end
+    @comment.post = @post
 
     if @comment.save
       UserMailer.comment(@comment).deliver
