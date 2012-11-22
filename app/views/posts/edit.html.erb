@@ -1,0 +1,7 @@
+<h1>Edit Post</h1>
+
+<% if @post.errors.any? %>
+  <%= flash[:error] %>
+<% end %>
+
+<%= render 'form' %>

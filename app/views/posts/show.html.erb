@@ -25,6 +25,7 @@ function postToFeed() {
 <% markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
         :autolink => true, :space_after_headers => true) %>
 <p><%= markdown.render(@post.content).html_safe %></p>
+<%= link_to 'Edit', edit_post_path(@post) %>
 <hr>
 <h4>Share Post!</h4>
 <p><a href="#" onclick='postToFeed(); return false;'>Share on Facebook</a></p>

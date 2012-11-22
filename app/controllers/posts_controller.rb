@@ -6,12 +6,28 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find_by_id(params[:id])
+    @post = Post.find(params[:id])
     @comments = @post.comments.order("created_at DESC")
   end
 
   def new
     @post = Post.new
+  end
+  
+  def edit
+	@post = Post.find(params[:id])
+  end
+  
+  def update
+	@post = Post.find(params[:id])
+	
+	if @post.update_attributes(params[:post])
+		flash[:notice] = 'Post succesfully edited'
+		redirect_to :action => 'show', id: @post
+	else
+		flash[:error] = "There were some errors editing your post"
+		render action: 'edit'
+	end
   end
 
   def create
@@ -24,6 +40,6 @@ class PostsController < ApplicationController
     else
       flash[:error] = "There were some errors creating your post"
       render action: "new"
-    end    
+    end 
   end
 end
