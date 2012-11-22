@@ -1,10 +1,14 @@
-<h1>All the posts!</h1>
-<ul>
+<ul class="posts">
   <% @posts.each do |post| %>
-    <li>
-      <%= link_to(post.title, post) %> -
-      <%= post.user.full_name %> -
-      <%= time_ago_in_words(post.created_at) %> ago
+    <li class="post">
+      <div class="row">
+        <div class="span1"><%= image_tag post.image.url(:thumb) if !post.image_file_name.nil? %></div>
+        <div class="span10">
+          <span class="post-title"><%= link_to(post.title, post) %></span><br>
+          <span class="post-meta"><%= post.user.full_name %> | <%= time_ago_in_words(post.created_at) %> ago</span>
+        </div>
+      </div>
+      <hr>
     </li>
   <% end %>
 </ul>
