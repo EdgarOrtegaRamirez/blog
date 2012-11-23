@@ -1,0 +1,2 @@
+$('#comment_<%= @comment.id %>').html('<%= j render @like %>');
+$('#action_<%= @comment.id %>').html('<%= link_to "Like!", new_comment_like_path(@comment), remote: true, class: "btn btn-mini btn-success" %>');

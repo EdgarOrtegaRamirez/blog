@@ -4,6 +4,10 @@ MyBlog::Application.routes.draw do
     resources :comments
   end
 
+  resources :comments do
+    resources :likes
+  end
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   root :to => "posts#index"

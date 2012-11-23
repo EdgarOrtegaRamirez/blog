@@ -1,12 +1,13 @@
 <script src='http://connect.facebook.net/en_US/all.js'></script>
 
-<h1><%= @post.title %></h1>
+<h1 class="post-title"><%= @post.title %></h1>
+<hr>
 <%= image_tag @post.image.url if !@post.image_file_name.nil? %>
-<p><%= markdown(@post.content) %></p>
+<p class="post-content"><%= markdown(@post.content) %></p>
 
 <hr>
 <div class="row">
-  <div class="span2">
+  <div class="span2" style="text-align: center">
     <%= link_to 'Edit Post', edit_post_path(@post), html_options = {class: 'btn btn-large'}%>
   </div>
   <div class="span10">
@@ -17,11 +18,27 @@
 </div>
 
 <hr>
-<h5><%= @comments.count %> comment<%=  's' if @comments.count != 1 %></h5>
-<ul>
+<h5>Comments</h5>
+
+<ul id="comments">
   <% @comments.each do |comment| %>
-    <li>
-      <p><%= comment.nickname %>: <small><%= time_ago_in_words(comment.created_at) %> ago</small></p>
+    <li><b>
+      <% if comment.user_id.nil? %>
+        <%= comment.nickname %>
+      <% else %>
+        <%= User.find(comment.user_id).full_name %>
+      <% end %>
+      </b><small><%= time_ago_in_words(comment.created_at) %></small> | 
+      <span id="comment_<%= comment.id %>"><%= comment.likes.count %> Like<%= 's' if comment.likes.count != 1 %></span> | 
+      <span id="action_<%= comment.id %>">
+        <% if user_signed_in? %>
+          <% if comment.likes.where(user_id: current_user.id).empty? %>
+            <%= link_to 'Like!', new_comment_like_path(comment), remote: true, class: 'btn btn-mini btn-success' %>
+          <% else %>
+            <%= link_to 'Unlike', comment_like_path(comment), remote: true, method: :delete, class: 'btn btn-mini' %>
+          <% end %>
+        <% end %>
+      </span>
       <p><%= comment.message %></p>
     </li>
   <% end %>
@@ -29,7 +46,7 @@
 <hr>
 
 <h4>Deja tu comentario</h4>
-<%= simple_form_for [@post, @post.comments.build] do |f| %>
+<%= simple_form_for [@post, @post.comments.build], remote: true do |f| %>
   <%= f.input :nickname if !user_signed_in? %>
   <%= f.input :message, :input_html => {:rows => 5}  %>
   <%= f.button :submit, class: 'btn btn-info' %>

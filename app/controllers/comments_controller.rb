@@ -6,15 +6,19 @@ class CommentsController < ApplicationController
       @comment = UserComment.new(params[:comment])
       @comment.user = current_user
     else
-      @comment = Comment.new(params[:comment])
+      @comment = AnonymousComment.new(params[:comment])
     end
     @comment.post = @post
 
     if @comment.save
       UserMailer.comment(@comment).deliver
-      redirect_to post_path(@post), :notice => "Your comment was submitted. Thank you"
+      flash[:notice] = "Your comment was published. Thank you"
     else
-      redirect_to post_path(@post), :error => "Your comment couldn't be submitted"
+      flash[:error] = "Your comment wasn't published, Nickname can't be blank"
+    end
+    respond_to do |format|
+      format.html { redirect_to post_path(@post) }
+      format.js
     end
   end
 end

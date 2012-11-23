@@ -1,0 +1,5 @@
+<li>
+  <b><%= @comment.user.full_name %></b>
+  <small><%= time_ago_in_words(@comment.created_at) %></small>
+  <p><%= @comment.message %></p>
+</li>
