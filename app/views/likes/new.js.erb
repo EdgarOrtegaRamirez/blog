@@ -1,2 +1,2 @@
 $('#comment_<%= @comment.id %>').html('<%= j render @like %>');
-$('#action_<%= @comment.id %>').html('<%= link_to "Unlike", comment_like_path(@comment), remote: true, method: :delete, class: "btn btn-mini" %>');
+$('#action_<%= @comment.id %>').html('<%= link_to "Unlike", comment_like_path(@comment, @like), remote: true, method: :delete, class: "btn btn-mini" %>');
