@@ -9,7 +9,7 @@ class LikesController < ApplicationController
     if @like.save
       @comment = Comment.find(params[:comment_id])
       respond_to do |format|
-        format.js
+        format.js { render 'button' }
       end
     end
   end
@@ -19,7 +19,7 @@ class LikesController < ApplicationController
     if @like.destroy
       @comment = Comment.find(params[:comment_id])
       respond_to do |format|
-        format.js
+        format.js { render 'button' }
       end
     end
   end

@@ -1,0 +1,13 @@
+<li><b>
+  <% if comment.user_id.nil? %>
+    <%= comment.nickname %>
+  <% else %>
+    <%= User.find(comment.user_id).full_name %>
+  <% end %>
+  </b><small><%= time_ago_in_words(comment.created_at) %></small> | 
+  <span id="comment_<%= comment.id %>"><%= comment.likes.count %> Like<%= 's' if comment.likes.count != 1 %></span> | 
+  <span id="action_<%= comment.id %>">
+    <%= render :partial => 'likes/button', :locals => {comment: comment} %>
+  </span>
+  <p><%= comment.message %></p>
+</li>

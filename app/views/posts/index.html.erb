@@ -3,7 +3,7 @@
     <li class="post">
       <div class="row">
         <div class="span1" style="text-align: center">
-          <%= image_tag post.image.url(:thumb) if !post.image_file_name.nil? %>
+          <%= image_tag post.image.url(:thumb), class: 'img-polaroid' if !post.image_file_name.nil? %>
         </div>
         <div class="span10">
           <span class="post-title"><%= link_to(post.title, post) %></span><br>

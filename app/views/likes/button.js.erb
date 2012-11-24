@@ -1,0 +1,2 @@
+$('#comment_<%= @comment.id %>').html('<%= j render @like %>');
+$('#action_<%= @comment.id %>').html('<%= j render :partial => "likes/button", :locals => {comment: @comment} %>');

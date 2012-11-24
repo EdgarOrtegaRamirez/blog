@@ -1,0 +1,9 @@
+<% if user_signed_in? %>
+  <% like = comment.likes.user_like(current_user.id).first %>
+
+  <% unless like %>
+    <%=link_to 'Like!', new_comment_like_path(comment), remote: true, class: 'btn btn-mini btn-success'%>
+  <% else %>
+    <%=link_to 'Unlike', comment_like_path(comment, like), remote: true, method: :delete, class: 'btn btn-mini'%>
+  <% end %>
+<% end %>

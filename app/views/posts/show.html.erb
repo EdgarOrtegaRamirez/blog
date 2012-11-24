@@ -19,29 +19,8 @@
 
 <hr>
 <h5>Comments</h5>
-
 <ul id="comments">
-  <% @comments.each do |comment| %>
-    <li><b>
-      <% if comment.user_id.nil? %>
-        <%= comment.nickname %>
-      <% else %>
-        <%= User.find(comment.user_id).full_name %>
-      <% end %>
-      </b><small><%= time_ago_in_words(comment.created_at) %></small> | 
-      <span id="comment_<%= comment.id %>"><%= comment.likes.count %> Like<%= 's' if comment.likes.count != 1 %></span> | 
-      <span id="action_<%= comment.id %>">
-        <% if user_signed_in? %>
-          <% if comment.likes.where(user_id: current_user.id).empty? %>
-            <%= link_to 'Like!', new_comment_like_path(comment), remote: true, class: 'btn btn-mini btn-success' %>
-          <% else %>
-            <%= link_to 'Unlike', comment_like_path(comment), remote: true, method: :delete, class: 'btn btn-mini' %>
-          <% end %>
-        <% end %>
-      </span>
-      <p><%= comment.message %></p>
-    </li>
-  <% end %>
+  <%= render @comments %>
 </ul>
 <hr>
 
